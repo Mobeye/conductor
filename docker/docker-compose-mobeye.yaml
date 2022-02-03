@@ -4,6 +4,7 @@ services:
   conductor-server:  # Will be exposed on port 8080
     environment:
       - CONFIG_PROP=config.properties
+      - LOG4J_PROP=log4j.properties
     image: conductor:server-es7
     volumes:
       - type: bind

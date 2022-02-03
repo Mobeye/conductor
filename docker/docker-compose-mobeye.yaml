@@ -9,6 +9,9 @@ services:
       - type: bind
         source: ./server/config/config.properties
         target: /app/config/config.properties
+      - type: bind
+        source: ./server/config/log4j.properties
+        target: /app/config/log4j.properties
     network_mode: "host"
     healthcheck:
       test: ["CMD", "curl","-I" ,"-XGET", "http://localhost:8080/health"]

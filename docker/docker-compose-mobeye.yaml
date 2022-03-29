@@ -1,0 +1,31 @@
+version: '2.3'
+
+services:
+  conductor-server:  # Will be exposed on port 8080
+    environment:
+      - CONFIG_PROP=config.properties
+    image: conductor:server-8e9167d9b
+    volumes:
+      - type: bind
+        source: ./server/config/config.properties
+        target: /app/config/config.properties
+    network_mode: "host"
+    healthcheck:
+      test: ["CMD", "curl","-I" ,"-XGET", "http://localhost:8080/health"]
+      interval: 60s
+      timeout: 30s
+      retries: 12
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1k"
+        max-file: "3"
+    restart: always
+
+  conductor-ui:  # will be exposed on port 5000
+    environment:
+      - WF_SERVER=http://localhost:8080
+    image: conductor:ui-8e9167d9b
+    network_mode: "host"
+    stdin_open: true
+    restart: always
